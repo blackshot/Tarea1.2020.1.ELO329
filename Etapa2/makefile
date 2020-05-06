@@ -53,7 +53,7 @@ FILE_out= DroneTrayectory.csv
 CLASSES = Stage2Test.java \
           Operator.java \
           Joystick.java \
-		  Skycontroller.java \
+		  SkyController.java \
 		  Drone.java
 
 #

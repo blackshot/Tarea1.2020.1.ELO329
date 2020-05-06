@@ -6,13 +6,16 @@ public class Operator {
    private Scanner inFile;
    private Joystick l_Joystick, r_Joystick;
 
-   // Constructor Method
+   // Constructor Methods
    public Operator (Scanner in, Joystick l_Joy, Joystick r_Joy){
       inFile = in;
       l_Joystick = l_Joy;
       r_Joystick = r_Joy;
       inFile.nextLine(); // skip description line
       t = inFile.nextFloat();
+   }
+   public Operator (Scanner in, SkyController NewSky){
+      this(in, NewSky.getRightStick(), NewSky.getLeftStick());
    }
 
    // Methods
