@@ -1,28 +1,13 @@
 public class Drone {
-   // FIELDS
-   private DroneState state;
-   private float time;
-   private float fSpeed, vSpeed, sSpeed, rSpeed;
-   private float direction; // angle
-   private float x,y,h;
-   private static float MAX_F_SPEED;
-   private static float MAX_V_SPEED;
-   private static float MAX_S_SPEED;
-   private static float MAX_R_SPEED;
-   private static float TAKEOFF_LANDING_SPEED;
-
+   public Drone () {
+      // to be coded
+   }
    static {
       MAX_F_SPEED = MAX_S_SPEED = 5; // [m/s]
       MAX_V_SPEED = 2;    // [m/s]
       MAX_R_SPEED = (float)(0.25*Math.PI/2); // [rad/s]
       TAKEOFF_LANDING_SPEED = 1; // [m/s]
    }
-
-   // Constructor Method
-   public Drone () {
-      // to be coded
-   }
-
    public void takeAction(float t){
       float delta_t = t-time;
       switch (state) {
@@ -48,11 +33,21 @@ public class Drone {
       return x + ", " + y + ", " + h;
    }
    public void takeOff() {
-      if (state==DroneState.IDLE)
-         state = DroneState.TAKING_OFF;
+      if (state==State.LANDED)
+         state = State.TAKING_OFF;
    }
    public void land() {
-      if (state==DroneState.FLYING)
-         state = DroneState.LANDING;
+      if (state==State.FLYING)
+         state = State.LANDING;
    }
+   private State state;
+   private float time;
+   private float fSpeed, vSpeed, sSpeed, rSpeed;
+   private float direction; // angle
+   private float x,y,h;
+   private static float MAX_F_SPEED;
+   private static float MAX_V_SPEED;
+   private static float MAX_S_SPEED;
+   private static float MAX_R_SPEED;
+   private static float TAKEOFF_LANDING_SPEED;
 }

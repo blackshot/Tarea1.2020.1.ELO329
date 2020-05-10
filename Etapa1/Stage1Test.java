@@ -10,10 +10,8 @@ public class Stage1Test  {
       Joystick l_Joy = new Joystick();
       Joystick r_Joy = new Joystick();
       Operator operator = new Operator(in, l_Joy, r_Joy);
-      
-      System.out.println("Time\tJIH\tJIV\tJDH\tJDV");
       while(operator.takeAction(time)) {
-         System.out.printf("%.1f,\t%s, %s%n",time,l_Joy.toString(),r_Joy.toString());
+         System.out.println(/* to be coded */);
          time+=0.1;
       }
    }
