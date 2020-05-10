@@ -1,5 +1,5 @@
 public class Joystick {
-   /* FIELDS */
+   /* Fields */
    private float vf, hf;
 
    /* Constructor */
@@ -12,16 +12,20 @@ public class Joystick {
    public void setVerPos(float f){
       vf = f;
    }
+
    public void setHorPos(float f){
       hf = f;      
    } 
+
    public float getVerPos() {
       return vf;
    }
+
    public float getHorPos() {
       return hf;
    }
+   
    public String toString() {
-      return hf+","+vf;
+      return hf+", "+vf;
    }
 }
