@@ -37,6 +37,7 @@ FILE_out= DroneTrayectory.csv
 #
 
 .java.class:
+	@echo "Creating objects:"
 	$(JC) $(JFLAGS) $*.java
 
 
@@ -54,6 +55,7 @@ CLASSES = Stage3Test.java \
 		  Actionable.java \
           Joystick.java \
 		  InputDevice.java \
+          Joysticks.java \
 		  Skycontroller.java \
 		  Keyboard.java \
 		  Drone.java
@@ -86,6 +88,7 @@ classes: $(CLASSES:.java=.class)
 # $(JMV) y $(MAIN) are replaced by their values
 
 run: $(MAIN).class
+	@echo "Running..."
 	$(JVM) $(MAIN) $(FILE_in) > $(FILE_out)
 
 # this line is to remove all unneeded files from
@@ -95,5 +98,7 @@ run: $(MAIN).class
 #
 
 clean:
-	$(RM) *.class
+	@echo "Cleaning..."
+	@$(RM) *.class
+	$(RM) DroneTrayectory.csv
 

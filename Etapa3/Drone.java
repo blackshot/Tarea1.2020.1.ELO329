@@ -1,4 +1,4 @@
-public class Drone {
+public class Drone implements Actionable {
    // FIELDS
    private DroneState state;
    private float time;
@@ -32,7 +32,7 @@ public class Drone {
     * Realiza alguna de las acciones dependiendo del estado del Dron.
     * @param t (float): tiempo actual.
     */
-   public void takeAction(float t){
+   public boolean takeAction(float t){
       float delta_t = t-time;
       switch (state) {
       case TAKE_OFF:  //drone moves only upwards in this stage
@@ -41,26 +41,29 @@ public class Drone {
             state = DroneState.FLYING;
           break;
       case FLYING:
-          x = x + delta_t * fSpeed;
-          y = y + delta_t * sSpeed;
-          h = h + delta_t * vSpeed;
+          x = Math.round((x + delta_t * (fSpeed*(float)Math.cos(direction) + sSpeed*(float)Math.sin(direction)))*1000)/1000.0f;
+          y = Math.round((y + delta_t * (fSpeed*(float)Math.sin(direction) + sSpeed*(float)Math.cos(direction)))*1000)/1000.0f;
+          h = Math.round((h + delta_t * vSpeed)*1000)/1000.0f;
           direction = direction + delta_t * rSpeed;
-          // state = DroneState.FLYING;
+          //state = DroneState.FLYING;
           break;
       case LANDING: //drone moves only downwards in this stage
-          h = h - delta_t * TAKEOFF_LANDING_SPEED;
-          if (h <= 0)
+          h = Math.round((h - delta_t * TAKEOFF_LANDING_SPEED)*100)/100.0f;
+          if (h <= 0){
             state = DroneState.IDLE;
+            h = 0.0f; // specifies that it can't go below zero.
+          }
           break;
       default: break;
       }
       time = t;
+      return true;
    }
 
    /** 
     * Determina la velocidad rotacional del dron segun 
     * el left Joy.
-    * @param percentage (float): angulo de posicion rotacional, h_pos - left Joy
+    * @param percentage (float): angulo de posicion left Joy horizontal.
     */
    public void setRotationSpeed(float percentage) {
       rSpeed = MAX_R_SPEED * percentage;
@@ -68,9 +71,9 @@ public class Drone {
    /** 
     * Determina las velocidades del dron segun los
     * joysticks.
-    * @param vertPer (float): angulo de posicion v_pos - left Joy
-    * @param forwPer (float): angulo de posicion v_pos - right Joy
-    * @param sidePer (float): angulo de posicion h_pos - right Joy
+    * @param vertPer (float): angulo de posicion left Joy vertical.
+    * @param forwPer (float): angulo de posicion right Joy vertical.
+    * @param sidePer (float): angulo de posicion right Joy horizontal.
     */
    public void setFlySpeed(float vertPer, float forwPer, float sidePer) {
       vSpeed = MAX_V_SPEED * vertPer;
@@ -97,7 +100,7 @@ public class Drone {
    public void takeOff() {
       if (state==DroneState.IDLE)
          state = DroneState.TAKE_OFF;
-      else System.out.println("No Use - Take Off");
+      else System.out.println("Error - Take Off");
    }
    /** 
     * Realiza el aterrizaje, dependiendo del estado del Dron.
@@ -105,6 +108,6 @@ public class Drone {
    public void land() {
       if (state==DroneState.FLYING)
          state = DroneState.LANDING;
-      else System.out.println("No Use - Landing");
+      else System.out.println("Error - Landing");
    }
 }

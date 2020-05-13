@@ -1,4 +1,4 @@
-public class SkyController {
+public class SkyController implements Actionable {
    // FIELDS
    private Drone drone;
    private Joystick lStick, rStick;
@@ -42,10 +42,11 @@ public class SkyController {
    /** 
     * Dirige las acciones tomadas por los Joystick hacia el Dron.
     */
-   public void takeAction(float time) {
+   public boolean takeAction(float time) {
       button = DroneState.FLYING;
       drone.setRotationSpeed(lStick.getHorPos());
       drone.setFlySpeed(lStick.getVerPos(), rStick.getVerPos(), rStick.getHorPos());
+      return true;
    }
 }
 

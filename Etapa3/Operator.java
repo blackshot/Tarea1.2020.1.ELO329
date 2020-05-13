@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Operator {
+public class Operator implements Actionable {
    // FIELDS
    private float t;
    private Scanner inFile;
@@ -8,7 +8,7 @@ public class Operator {
 
    // Constructor Methods
    public Operator (Scanner in, SkyController NewSky){
-      this(in, NewSky.getRightStick(), NewSky.getLeftStick());
+      this(in, NewSky.getLeftStick(), NewSky.getRightStick());
    }
    public Operator (Scanner in, Joystick l_Joy, Joystick r_Joy){
       inFile = in;
