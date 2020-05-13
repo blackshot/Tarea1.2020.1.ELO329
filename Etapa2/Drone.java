@@ -1,5 +1,14 @@
 public class Drone {
-   
+   /*
+   y
+   ^
+   |      y
+   |   \d |
+   |    \ |
+   |      D ---- x
+   |
+   |---------------->x
+   */
    // Fields
    private State state;
    private float time;
@@ -16,11 +25,11 @@ public class Drone {
    // Constructor
    public Drone(){
       state = State.IDLE;
-      // Looking in the +y direction by default
-      direction = (float) (Math.PI / (2.0));
-      x = 0;
-      y = 0;
-      h = 0;
+      /* +y is Forward at the start
+      // The direction doesn't matter, as long as you change the equation in the FLYING state
+      */
+      direction = 0;
+      x = 0;   y = 0;   h = 0;
    }
    
    static {
@@ -51,8 +60,10 @@ public class Drone {
          }
 
          direction += delta_t * rSpeed;
-         x += delta_t * ((Math.cos(direction)*fSpeed) + (Math.sin(direction)*sSpeed));
-         y += delta_t * ((Math.sin(direction)*fSpeed) + (Math.cos(direction)*sSpeed));
+
+         x += delta_t * ( sSpeed * Math.cos(direction) - fSpeed * Math.sin(direction) );
+         y += delta_t * ( sSpeed * Math.sin(direction) + fSpeed * Math.cos(direction) );
+         
          break;
          
          case LANDING: //drone moves only downwards in this stage
