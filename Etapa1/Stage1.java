@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.Scanner;
 import java.util.Locale;
 
-public class Stage1Test  {
+public class Stage1{
     public static void main (String[] arg) throws IOException {
         Locale.setDefault(Locale.US);  // to read number in US format, like 1.5 (not like 1,5)
 
