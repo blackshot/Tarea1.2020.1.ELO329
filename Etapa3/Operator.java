@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Operator {
+public class Operator implements Actionable{
    
    // Fields
    private float t;
@@ -19,12 +19,17 @@ public class Operator {
    }
    
    // Another constructor
-   public Operator(Scanner in, SkyController newSky){
-      this(in, newSky.getLeftStick(), newSky.getRightStick());
+   public Operator(Scanner in, SkyController skycontroller){
+      this(in, skycontroller.getLeftStick(), skycontroller.getRightStick());
+   }
+
+   // Another one ?!
+   public Operator(Scanner in, Joysticks joysticks){
+      this(in, joysticks.getLeftStick(), joysticks.getRightStick());
    }
    
    // Methods
-   public boolean takeAction(float time){
+   public void takeAction(float time) {
       // If there's data to read
       if (inFile.hasNextLine()){
          // if time >= t
@@ -43,12 +48,10 @@ public class Operator {
                t = inFile.nextFloat();
             }
          }
-         return true;
       }
       // No more data to read;
       else{ 
          // Take no action
-         return false;
       }
    }
 }

@@ -1,4 +1,4 @@
-public class Drone {
+public class Drone implements Actionable{
    /*
    y
    ^
@@ -109,5 +109,9 @@ public class Drone {
       else{
          System.out.println("Error: Drone can't land if it is already on ground...Maybe it crashed...?");
       }
+   }
+
+   public State getState(){
+      return state;
    }
 }

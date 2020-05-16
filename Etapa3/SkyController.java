@@ -1,4 +1,4 @@
-public class SkyController {
+public class SkyController implements Actionable {
    // Fields
    private Drone drone;
    private Joystick lStick, rStick;
@@ -14,6 +14,13 @@ public class SkyController {
    }
 
    // Methods   
+   public void setInputDevice(Joysticks joysticks){
+      // TBC
+   }
+   public void setInputDevice(Keyboard keyboard){
+      // TBC
+   }
+
    public void pushTakeOff_Land(){
       if (button == State.IDLE){
          drone.takeOff();
