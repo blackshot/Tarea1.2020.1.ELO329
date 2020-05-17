@@ -53,12 +53,7 @@ public class Drone {
 
          case FLYING:
          h  += delta_t * vSpeed;
-         // In case of crash, turn off
-         if (h <= 0){
-            state = State.IDLE;
-            System.out.println("Drone crashed to the ground... Turning Off...");
-         }
-
+      
          direction += delta_t * rSpeed;
 
          x += delta_t * ( sSpeed * Math.cos(direction) - fSpeed * Math.sin(direction) );
@@ -71,6 +66,11 @@ public class Drone {
          
          case IDLE: // Waiting for TAKE_OFF or TURNED OFF BY CRASHING
       }
+      // In case of crash, turn off
+      if (h < 0){
+         h = 0;
+         state = State.IDLE;
+         }
       time = t;
    }
    public void setRotationSpeed(float rotPer) {
