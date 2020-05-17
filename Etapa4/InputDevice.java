@@ -1,27 +1,33 @@
 public abstract class InputDevice {
    // Fields
-   private State button;
+   private DroneState button;
    private SkyController controller;
 
-   // Constructor
+   // Constructor Method
    public InputDevice (SkyController controller) {
       // At creation, the drone is LANDED
-      button=State.IDLE;
+      button=DroneState.IDLE;
       this.controller=controller;
    }
 
-   // Methods
+   // Abstract Methods
    public abstract float getForwardPos();
    public abstract float getSidewaysPos();
    public abstract float getVerticalPos();
    public abstract float getRotationPos();
-   
+
+   //Methods
+   /** 
+    * Realiza el despegue o aterrizaje dependiendo del estado del Dron.
+    */
    public void pushTakeOff_Land () {
       controller.pushTakeOff_Land();
    }
-   
-   public boolean isWaitingToTakeOff(){
-      return button == State.IDLE;
+   /** 
+    * Responde si el device está esperando a partir.
+    * @return boolean: si está o no listo para TAKE_OFF
+    */
+   public boolean isWaitingToTakeOff () {
+      return button == DroneState.IDLE;
    }
-
 }

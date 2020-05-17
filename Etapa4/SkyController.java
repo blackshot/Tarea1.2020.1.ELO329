@@ -2,9 +2,9 @@ public class SkyController implements Actionable {
    // Fields
    private Drone drone;
    private InputDevice ID;
-   private State drone_state;
+   private DroneState drone_state;
 
-   // Constructor
+   // Constructor Method
    public SkyController (Drone drone) {
       this.drone = drone; // private variable "drone" (local) now points to Drone object
       // At creation, the drone is LANDED
@@ -12,19 +12,27 @@ public class SkyController implements Actionable {
    }
 
    // Methods
+   /** 
+    * Obtiene la informacion de mando.
+    */
    public void setInputDevice(InputDevice ID) {
       this.ID = ID;
    }
 
+   /** 
+    * Realiza el despegue o aterrizaje dependiendo del estado del Dron.
+    */
    public void pushTakeOff_Land() {
       drone_state = drone.getState();
-      if (drone_state == State.IDLE) {
+      if (drone_state == DroneState.IDLE) {
          drone.takeOff();
-      } else if (drone_state == State.FLYING) {
+      } else if (drone_state == DroneState.FLYING) {
          drone.land();
       }
    }
-
+   /** 
+    * Dirige las acciones tomadas por los Joystick hacia el Dron.
+    */
    public void takeAction(float time) {
       // JIV, JDV, JDH
       drone.setFlySpeed(ID.getVerticalPos(),
@@ -33,8 +41,11 @@ public class SkyController implements Actionable {
       // JIH
       drone.setRotationSpeed(ID.getRotationPos());
    }
-
-   public State getDroneState(){
+   /** 
+    * Obtiene el estado del Dron.
+    * @return DroneState: estado del dron.
+    */
+   public DroneState getDroneState(){
       return drone.getState();
    }
 

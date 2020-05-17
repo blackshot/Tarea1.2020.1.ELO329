@@ -2,18 +2,8 @@ import java.io.PrintWriter;
 import java.io.IOException;
 
 public class Drone implements Actionable{
-   /*
-   y
-   ^
-   |      y
-   |   \d |
-   |    \ |
-   |      D ---- x
-   |
-   |---------------->x
-   */
-   // Fields
-   private State state;
+   // FIELDS
+   private DroneState state;
    private float time;
    private float fSpeed, vSpeed, sSpeed, rSpeed;
    private float direction; // angle
@@ -27,15 +17,20 @@ public class Drone implements Actionable{
    private static float MAX_R_SPEED;
    private static float TAKEOFF_LANDING_SPEED;
    
+   static {
+      MAX_F_SPEED = MAX_S_SPEED = 5; // [m/s]
+      MAX_V_SPEED = 2;    // [m/s]
+      MAX_R_SPEED = (float)(0.25*Math.PI/2); // [rad/s]
+      TAKEOFF_LANDING_SPEED = 1; // [m/s]
+   }
+   
    // Constructor
    public Drone(int num){
-      state = State.IDLE;
-      /* +y is Forward at the start
-      // The direction doesn't matter, as long as you change the equation in the FLYING state
-      */
-      direction = 0;
-      x = 0;   y = 0;   h = 0;
-      this.num = num;
+      state = DroneState.IDLE;
+      time = 0.0f;
+      x = 0.0f;      y = 0.0f;      h = 0.0f;
+      fSpeed = 0.0f; vSpeed = 0.0f; sSpeed = 0.0f; rSpeed = 0.0f;
+      direction = 0.0f;
       try {
          Archive = new PrintWriter("drone"+num+".csv", "UTF-8");
          System.out.println("File Created"); // termina el print despues de close
@@ -45,45 +40,36 @@ public class Drone implements Actionable{
       }
    }
    
-   static {
-      MAX_F_SPEED = MAX_S_SPEED = 5; // [m/s]
-      MAX_V_SPEED = 2;    // [m/s]
-      MAX_R_SPEED = (float)(0.25*Math.PI/2); // [rad/s]
-      TAKEOFF_LANDING_SPEED = 1; // [m/s]
-   }
-   
    // Methods
+   /** 
+    * Realiza alguna de las acciones dependiendo del estado del Dron.
+    * @param t (float): tiempo actual.
+    */
    public void takeAction(float t){
       float delta_t = t-time;
       switch (state) {
-         case TAKE_OFF:  //drone moves only upwards in this stage
+      case TAKE_OFF:  //drone moves only upwards in this stage
          h += delta_t * TAKEOFF_LANDING_SPEED;
-         if (h >= 1.0){
-            state = State.FLYING;
+         if (h >= 1.0f){
+            state = DroneState.FLYING;
             System.out.println("Drone " + num + " reached flying altitude...");
          }
          break;
-
-         case FLYING:
-         h  += delta_t * vSpeed;
+      case FLYING:
+         x += delta_t * (fSpeed*(float)Math.cos(direction) + sSpeed*(float)Math.sin(direction));
+         y += delta_t * (fSpeed*(float)Math.sin(direction) + sSpeed*(float)Math.cos(direction));
+         h += delta_t * vSpeed;
          direction += delta_t * rSpeed;
-         x += delta_t * ( sSpeed * Math.cos(direction) - fSpeed * Math.sin(direction) );
-         y += delta_t * ( sSpeed * Math.sin(direction) + fSpeed * Math.cos(direction) );
          break;
-         
-         case LANDING: //drone moves only downwards in this stage
+      case LANDING: //drone moves only downwards in this stage
          h -= delta_t * TAKEOFF_LANDING_SPEED;
-         if (h <= 0) { // Finished the landing ?
-            state = State.IDLE;
+         if (h <= 0) { 
+            state = DroneState.IDLE;
+            h = 0.0f; // specifies that it can't go below zero.
+            System.out.println("Drone " + num + " landed... Changing State to IDLE");
          }
-         
+         break;
          case IDLE: // Waiting for TAKE_OFF or TURNED OFF BY CRASHING
-      }
-      // In case of crash, turn off
-      if (h < 0){
-         h = 0;
-         state = State.IDLE;
-         System.out.println("Drone " + num + " landed... Changing State to IDLE");
       }
       time = t;
       
@@ -91,55 +77,92 @@ public class Drone implements Actionable{
       this.print2File();
    }
 
-   // ---------- Fly-related Methods ---------- //
+   /** 
+    * Determina la velocidad rotacional del dron segun 
+    * el left Joy.
+    * @param rotPer (float): angulo de posicion left Joy horizontal.
+    */
    public void setRotationSpeed(float rotPer) {
       rSpeed = MAX_R_SPEED * rotPer;
    }
-   
+   /** 
+    * Determina las velocidades del dron segun los
+    * joysticks.
+    * @param vertPer (float): angulo de posicion left Joy vertical.
+    * @param forwPer (float): angulo de posicion right Joy vertical.
+    * @param sidePer (float): angulo de posicion right Joy horizontal.
+    */
    public void setFlySpeed(float verPer, float forwPer, float sidePer) {
       vSpeed = MAX_V_SPEED * verPer;
       fSpeed = MAX_F_SPEED * forwPer;
       sSpeed = MAX_S_SPEED * sidePer;
    }
-
+   /** 
+    * Obtiene la informacion de la altura.
+    * @return float: altura a la que se encuentra.
+    */
+   public float getHeight() {
+      return h;
+   }
+   /** 
+    * Obtiene el estado del dron.
+    * @return DroneState: estado en el que se encuentra.
+    */
+   public DroneState getState(){
+      return state;
+   }
+   /** 
+    * Obtiene la informacion del dron.
+    * @return String: posicion x,y,h en string.
+    */
+   public String toString() {
+      String fString = String.format("% .2f, % .2f, % .2f, % .2f",time,x,y,h);
+      return fString;
+   }
+   /** 
+    * Realiza el despegue, dependiendo del estado del Dron.
+    */
    public void takeOff() {
-      if (state==State.IDLE){
-         state = State.TAKE_OFF;
+      if (state==DroneState.IDLE){
+         state = DroneState.TAKE_OFF;
       }
       else{
          System.out.println("Error: Drone can't take off if it is already in flight...");
       }
    }
-   
+   /** 
+    * Realiza el aterrizaje, dependiendo del estado del Dron.
+    */
    public void land() {
-      if (state==State.FLYING){
-         state = State.LANDING;
+      if (state==DroneState.FLYING){
+         state = DroneState.LANDING;
          System.out.println("Landing ...");
       }
       else{
          System.out.println("Error: Drone can't land if it is already on ground...Maybe it crashed...?");
       }
    }
-
-   public float getHeight() {
-      return h;
+   /** 
+    * Cierra el archivo correspondiente.
+    */
+   public void closeFile(){
+      Archive.close();
    }
-
-   public State getState(){
-      return state;
-   }
-
-   // ---------- Print-related methods ---------- //
-
-   public String toString() {
-      String fString = String.format("% .2f, % .2f, % .2f, % .2f",time,x,y,h);
-      return fString;
-   }
+   /** 
+    * Imprime la informacion del dron.
+    */
    public void print2File(){
       Archive.write(this.toString()+'\n');
 
    }
-   public void closeFile(){
-      Archive.close();
-   }
 }
+/*
+y
+^
+|      y
+|   \d |
+|    \ |
+|      D ---- x
+|
+|---------------->x
+*/

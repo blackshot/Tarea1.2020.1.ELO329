@@ -1,20 +1,19 @@
 import java.util.Scanner;
 
 public class Operator implements Actionable{
-   
-   // Fields
+   // FIELDS
    private float t;
    private Scanner inFile;
    private Joystick l_Joystick, r_Joystick;
    private Joysticks joysticks;
-   private State button;
+   private DroneState button;
    // Constructor
    public Operator(Scanner in, Joysticks joysticks){
       inFile = in;
       this.joysticks = joysticks;
       l_Joystick = joysticks.getLeftStick();
       r_Joystick = joysticks.getRightStick();
-      button = State.IDLE;
+      button = DroneState.IDLE;
 
       // Skip description line
       inFile.nextLine();
@@ -22,15 +21,21 @@ public class Operator implements Actionable{
    }
 
    // Methods
+   /** 
+    * Toma las acciones pertinentes dependiendo del archivo 
+    * de entrada.
+    * @param time (float): el tiempo actual
+    * @return boolean: si se tomo o no la accion
+    */
    public void takeAction(float time) {
       float v,r,f,s;
 
       // If there's data to read
       if (inFile.hasNextFloat()){
          // Turn on the drone if it wasn't already ...
-         if (button == State.IDLE){
+         if (button == DroneState.IDLE){
             joysticks.pushTakeOff_Land();
-            button = State.FLYING;
+            button = DroneState.FLYING;
          }
          // if time >= t
          if (Math.round(time * 10) >= Math.round(t*10)){
@@ -43,7 +48,7 @@ public class Operator implements Actionable{
             if (v == 0.0 && r == 0.0 && f == 0.0 && s == 0.0 && 
             inFile.hasNextLine() == false){
                joysticks.pushTakeOff_Land();
-               button = State.IDLE;
+               button = DroneState.IDLE;
                }
             
             // Left Joystick Data

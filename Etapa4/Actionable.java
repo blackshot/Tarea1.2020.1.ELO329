@@ -1,3 +1,7 @@
 interface Actionable {
-   void takeAction (float t);
+   /** 
+    * Realiza las acciones.
+    * @param time (float): tiempo actual.
+    */
+    void takeAction (float time);
 }

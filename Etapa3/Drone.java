@@ -30,7 +30,7 @@ public class Drone implements Actionable {
       fSpeed = 0.0f; vSpeed = 0.0f; sSpeed = 0.0f; rSpeed = 0.0f;
       direction = 0.0f;
       try {
-         Archive = new PrintWriter("drone1.csv", "UTF-8");
+         Archive = new PrintWriter("drone.csv", "UTF-8");
          System.out.println("File Created"); // termina el print despues de close
          Archive.write("Drone 1 Start\n");
       } catch (IOException e) {
@@ -49,7 +49,8 @@ public class Drone implements Actionable {
       case TAKE_OFF:  //drone moves only upwards in this stage
          h += delta_t * TAKEOFF_LANDING_SPEED;
          if (h >= 1.0f){
-           state = DroneState.FLYING;System.out.println("Drone reached flying altitude...");
+           state = DroneState.FLYING;
+           System.out.println("Drone reached flying altitude...");
          }
          break;
       case FLYING:
@@ -68,6 +69,9 @@ public class Drone implements Actionable {
       default: break;
       }
       time = t;
+
+      // Export the data
+      this.print2File();
    }
 
    /** 
@@ -99,7 +103,7 @@ public class Drone implements Actionable {
    }
    /** 
     * Obtiene el estado del dron.
-    * @return float: estado en el que se encuentra.
+    * @return DroneState: estado en el que se encuentra.
     */
    public DroneState getState() {
       return state;
@@ -131,6 +135,13 @@ public class Drone implements Actionable {
    }
    public void closeFile(){
       Archive.close();
+   }
+   /** 
+    * Imprime la informacion del dron.
+    */
+   public void print2File(){
+      Archive.write(this.toString()+'\n');
+
    }
 }
 /* Disposicion espacial
