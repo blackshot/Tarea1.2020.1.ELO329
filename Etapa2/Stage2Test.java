@@ -6,22 +6,28 @@ public class Stage2Test  {
    public static void main (String[] arg) throws IOException {
       Locale.setDefault(Locale.US);  // to read number in US format, like 1.5 (not like 1,5)
       Scanner in = new Scanner(new File(arg[0]));
-      float time = 0;
+      // Objects init
+      float time = 0.00f;
       Drone drone = new Drone();
       SkyController skyController = new SkyController(drone);
       Operator operator = new Operator(in, skyController);
-      skyController.pushTakeOff_Land(); // to take-off
+      
+      System.out.println(" t, \tx,\ty,\th");
+      // Take-off
+      skyController.pushTakeOff_Land();
       while(operator.takeAction(time)) {
          skyController.takeAction(time);
          drone.takeAction(time);
-         System.out.println(time+ ",\t"+drone);
-         time+=0.1;
+         System.out.println(String.format("% .2f,",time) + drone);
+         time += 0.1f;
       }
-      skyController.pushTakeOff_Land(); // to land
-      while (drone.getHeight() >=0) {
+
+      // Landing
+      skyController.pushTakeOff_Land();
+      while (drone.getHeight() > 0) {
          drone.takeAction(time);
-         System.out.println(time+ ",\t"+drone);
-         time+=0.1;
+         System.out.println(String.format("% .2f,",time) + drone);
+         time += 0.1f;
       }
    }
 }

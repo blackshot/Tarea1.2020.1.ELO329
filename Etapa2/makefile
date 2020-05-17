@@ -96,4 +96,5 @@ run: $(MAIN).class
 clean:
 	@echo "Cleaning..."
 	@$(RM) *.class
-	$(RM) DroneTrayectory.csv
+# if need to refresh the output data
+	#$(RM) DroneTrayectory.csv

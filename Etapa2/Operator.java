@@ -7,6 +7,9 @@ public class Operator {
    private Joystick l_Joystick, r_Joystick;
 
    // Constructor Methods
+   public Operator (Scanner in, SkyController NewSky){
+      this(in, NewSky.getLeftStick(), NewSky.getRightStick());
+   }
    public Operator (Scanner in, Joystick l_Joy, Joystick r_Joy){
       inFile = in;
       l_Joystick = l_Joy;
@@ -14,33 +17,39 @@ public class Operator {
       inFile.nextLine(); // skip description line
       t = inFile.nextFloat();
    }
-   public Operator (Scanner in, SkyController NewSky){
-      this(in, NewSky.getRightStick(), NewSky.getLeftStick());
-   }
 
    // Methods
    /** 
     * Toma las acciones pertinentes dependiendo del archivo 
     * de entrada.
-    * @param time (float): el tiempo actual
-    * @return boolean: si se tomo o no la accion
+    * @param time (float): el tiempo actual.
+    * @return boolean: si se tomo o no la accion.
     */
-   public boolean takeAction(float time){
-      float l_hpos, l_vpos, r_hpos, r_vpos;
-      if (t < time) {
-         l_hpos = inFile.nextFloat();
-         l_vpos = inFile.nextFloat();
-         r_hpos = inFile.nextFloat();
-         r_vpos = inFile.nextFloat();
-         if((l_hpos == 0) && (l_vpos == 0) && (r_hpos == 0) && (r_vpos == 0)) {
-            return false;
+    public boolean takeAction(float time){
+      float ver,rot,forw,side;
+      // If there's data to read
+      if (inFile.hasNextFloat()){
+         // Round to avoid float epsilon difference
+         if (Math.round(time * 10) >= Math.round(t*10)){
+            rot = inFile.nextFloat();
+            ver = inFile.nextFloat();
+            side = inFile.nextFloat();
+            forw = inFile.nextFloat();
+
+            // Left Joystick Data
+            l_Joystick.setHorPos(rot);
+            l_Joystick.setVerPos(ver);
+             // Right Joystick Data
+            r_Joystick.setHorPos(side);
+            r_Joystick.setVerPos(forw);
+
+             // If there's a new line
+            if (inFile.hasNextLine()){
+               t = inFile.nextFloat();
+            }
          }
-         l_Joystick.setHorPos(l_hpos);
-         l_Joystick.setVerPos(l_vpos);
-         r_Joystick.setHorPos(r_hpos);
-         r_Joystick.setVerPos(r_vpos);
-         t = inFile.nextFloat();
-       }
-      return true;
+         return true;
+      }
+      else return false;
    }
 }
