@@ -10,16 +10,16 @@ Para cada etapa se debe posicionar en la respectiva carpeta. Desde ahí usted pu
 `$ make clean` : limpia el entorno de trabajo de archivos .class, y de ser necesario puede modificar el makefile para eliminar "DroneTrayectory.csv" también.
 
 #### Clases en la tarea
-**Actionable:** Interfaz que contiene el método takeAction.
-**Drone:** clase del objeto drone, este contiene su posicion, velocidad y archivo de escritura.
-**DroneState:** clase enum que determina los estados del dron.
-**InputDevice:** clase abstracta que configura las acciones que debe realizar un dispositivo de entrada.
-**Joystick:** clase del mando analogo que se controla.
-**Joysticks:** clase tipo de *InputDevice*, esta utiliza archivos de entrada.
-**Keyboard:** clase tipo de *InputDevice*, esta utiliza el teclado.
-**Operator:** clase que simula las acciones de un operador real, mientras obtiene la informacion de un archivo de entrada.
-**SkyController:** clase del controlador del dron, este le envía la informacion que ejecuta el operador.
-**StageXTest:** clase main de cada etapa.
+**Actionable:** Interfaz que contiene el método takeAction.  
+**Drone:** clase del objeto drone, este contiene su posicion, velocidad y archivo de escritura.  
+**DroneState:** clase enum que determina los estados del dron.  
+**InputDevice:** clase abstracta que configura las acciones que debe realizar un dispositivo de entrada.  
+**Joystick:** clase del mando analogo que se controla.  
+**Joysticks:** clase tipo de *InputDevice*, esta utiliza archivos de entrada.  
+**Keyboard:** clase tipo de *InputDevice*, esta utiliza el teclado.  
+**Operator:** clase que simula las acciones de un operador real, mientras obtiene la informacion de un archivo de entrada.  
+**SkyController:** clase del controlador del dron, este le envía la informacion que ejecuta el operador.  
+**StageXTest:** clase main de cada etapa.  
 
 #### Trabajo en GIT
 - Para empezar a trabajar en este repositorio usted debe ingresar los siguientes códigos mediante el uso de CLI:  
