@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.util.Locale;
 import java.util.ArrayList;
 
-public class Stage4Test  {
+public class AcrobaticDrones  {
    public static void main (String[] arg) throws IOException {
 
       // ---------- CODE INIT ---------- //
@@ -52,7 +52,7 @@ public class Stage4Test  {
          }
          sleepFor(0.1f); // let 0.1 [s] pass to run at real time.
          time = getCurrentTime();
-      } while ( (drone1.getState() != DroneState.IDLE) || (drone2.getState() != State.IDLE) );
+      } while ( (drone1.getState() != DroneState.IDLE) || (drone2.getState() != DroneState.IDLE) );
 
       System.out.println(drone1.toString());
       System.out.println(drone2.toString());

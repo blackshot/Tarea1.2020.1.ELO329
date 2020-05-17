@@ -15,7 +15,7 @@ public class Joystick {
     * @param Value (float): angulo de posicion
     */
     public void setVerPos(float Value){
-       vf = f;
+       vf = Value;
     }
     /** 
      * Determina una posicion horizontal del joystick segun 
@@ -23,7 +23,7 @@ public class Joystick {
      * @param Value (float): angulo de posicion
      */
     public void setHorPos(float Value){
-       hf = f;      
+       hf = Value;      
     } 
     /** 
      * Obtiene la posicion vertical del joystick.
