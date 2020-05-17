@@ -83,8 +83,7 @@ classes: $(CLASSES:.java=.class)
 
 run: $(MAIN).class
 	@echo "Running..."
-	$(JVM) $(MAIN) $(FILE_in) 
-# > $(FILE_out)
+	$(JVM) $(MAIN) $(FILE_in) > $(FILE_out)
 
 # this line is to remove all unneeded files from
 # the directory when we are finished executing(saves space)
@@ -95,5 +94,6 @@ run: $(MAIN).class
 clean:
 	@echo "Cleaning..."
 	@$(RM) *.class
-	#$(RM) DroneTrayectory.csv
+
+#$(RM) DroneTrayectory.csv
 
