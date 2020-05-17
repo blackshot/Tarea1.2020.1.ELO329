@@ -95,5 +95,5 @@ run: $(MAIN).class
 clean:
 	@echo "Cleaning..."
 	@$(RM) *.class
-	$(RM) DroneTrayectory.csv
+	#$(RM) DroneTrayectory.csv
 
