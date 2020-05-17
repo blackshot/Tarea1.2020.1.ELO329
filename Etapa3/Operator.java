@@ -36,6 +36,7 @@ public class Operator implements Actionable{
             s = inFile.nextFloat();
             f = inFile.nextFloat();
 
+            // If there's no input, and no more data to read
             if (v == 0.0 && r == 0.0 && f == 0.0 && s == 0.0 && 
             inFile.hasNextLine() == false){
                SC.pushTakeOff_Land();

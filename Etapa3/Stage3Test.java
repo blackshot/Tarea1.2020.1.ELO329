@@ -15,7 +15,7 @@ public class Stage3Test  {
       final Scanner in = new Scanner(new File(arg[0]));
       
       // Drone init
-      Drone drone = new Drone();
+      Drone drone = new Drone(1);
       // Create the controller
       SkyController skyController = new SkyController(drone);
       // Create the INPUT DEVICE
@@ -37,24 +37,19 @@ public class Stage3Test  {
 
       // ---------- Joystick Interaction ---------- //
 
-      /*
-      
       do {
          for (Actionable device : Actionables)
             device.takeAction(time);
          if (time >= nextPrintTime) {
-            System.out.println(time + ",\t" + drone);
+            System.out.println(drone.toString());
             nextPrintTime += 0.5;
          }
          sleepFor(0.1f); // let 0.1 [s] pass to run at real time.
          time = getCurrentTime();
       } while (drone.getState() != State.IDLE);
 
-      System.out.println(time + ",\t" + drone);
+      System.out.println(drone.toString());
 
-      */
-
-      
       // ---------- Keyboard Interaction ---------- //
 
       // Create the new INPUT DEVICE
@@ -65,26 +60,33 @@ public class Stage3Test  {
       Actionables.add(keyboard); // start reading from keyboard
       
       System.out.println("Get ready to control the drone. Now you are its pilot.");
+
       do { // wait until the user hits space key (to take-off)
          for (Actionable device : Actionables)
             device.takeAction(time);
          sleepFor(0.1f); // users need to run at real time (not at simulation time)
          time = getCurrentTime();
       } while (drone.getState() != State.TAKE_OFF);
+
       nextPrintTime = time + 0.5f;
+      
       do { // user flies the drone until the drone lands.
          for (Actionable device : Actionables)
          device.takeAction(time);
          if (time >= nextPrintTime){
-            System.out.print("\n" + time+ ",\t"+drone + "; move: " );
+            System.out.println(drone.toString() + " move: ");
             nextPrintTime+=0.5;
          }
          sleepFor(0.1f);
          time=getCurrentTime();
       } while (drone.getState()!=State.IDLE);
-      System.out.print("\n" + time+ ",\t"+drone + "; move: ");
-      //drone.closeFile();
+
+      System.out.println(drone.toString());
+      
+      // Close the file
+      drone.closeFile();
    }
+   
    public static float getCurrentTime(){  // time since program started in [s]
       return (float)(System.currentTimeMillis()-t0)/1000.0f;
    }

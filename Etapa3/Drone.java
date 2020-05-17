@@ -1,3 +1,6 @@
+import java.io.PrintWriter;
+import java.io.IOException;
+
 public class Drone implements Actionable{
    /*
    y
@@ -15,6 +18,7 @@ public class Drone implements Actionable{
    private float fSpeed, vSpeed, sSpeed, rSpeed;
    private float direction; // angle
    private float x,y,h;
+   private PrintWriter Archive;
 
    private static float MAX_F_SPEED;
    private static float MAX_V_SPEED;
@@ -23,13 +27,20 @@ public class Drone implements Actionable{
    private static float TAKEOFF_LANDING_SPEED;
    
    // Constructor
-   public Drone(){
+   public Drone(int num){
       state = State.IDLE;
       /* +y is Forward at the start
       // The direction doesn't matter, as long as you change the equation in the FLYING state
       */
       direction = 0;
       x = 0;   y = 0;   h = 0;
+      try {
+         Archive = new PrintWriter("drone"+num+".csv", "UTF-8");
+         System.out.println("File Created"); // termina el print despues de close
+         Archive.write("time, x, y, h \n");
+      } catch (IOException e) {
+         System.out.println("File Creation Error");
+      }
    }
    
    static {
@@ -70,10 +81,15 @@ public class Drone implements Actionable{
       if (h < 0){
          h = 0;
          state = State.IDLE;
-         System.out.println("Drone crashed to the ground... Turning Off...");
+         System.out.println("Drone landed... Changing State to IDLE");
       }
       time = t;
+      
+      // Export the data
+      this.print2File();
    }
+
+   // ---------- Fly-related Methods ---------- //
    public void setRotationSpeed(float rotPer) {
       rSpeed = MAX_R_SPEED * rotPer;
    }
@@ -83,16 +99,7 @@ public class Drone implements Actionable{
       fSpeed = MAX_F_SPEED * forwPer;
       sSpeed = MAX_S_SPEED * sidePer;
    }
-   
-   public float getHeight() {
-      return h;
-   }
-   
-   public String toString() {
-      String fString = String.format("% .2f,% .2f,% .2f",x,y,h);
-      return fString;
-   }
-   
+
    public void takeOff() {
       if (state==State.IDLE){
          state = State.TAKE_OFF;
@@ -112,7 +119,25 @@ public class Drone implements Actionable{
       }
    }
 
+   public float getHeight() {
+      return h;
+   }
+
    public State getState(){
       return state;
+   }
+
+   // ---------- Print-related methods ---------- //
+
+   public String toString() {
+      String fString = String.format("% .2f, % .2f, % .2f, % .2f",time,x,y,h);
+      return fString;
+   }
+   public void print2File(){
+      Archive.write(this.toString()+'\n');
+
+   }
+   public void closeFile(){
+      Archive.close();
    }
 }
