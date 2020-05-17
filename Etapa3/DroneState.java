@@ -1,1 +1,1 @@
-public enum DroneState {IDLE, TAKING_OFF, FLYING, LANDING}
+public enum DroneState {IDLE, TAKE_OFF, FLYING, LANDING}

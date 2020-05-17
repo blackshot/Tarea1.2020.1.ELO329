@@ -2,6 +2,7 @@ public class Joystick {
    // FIELDS
    private float vf, hf;
 
+   // Constructor Method
    public Joystick () {
       vf=0.0f;
       hf=0.0f;
@@ -44,6 +45,6 @@ public class Joystick {
     * @return String: angulos de posicion
     */
    public String toString() {
-      return hf+","+vf;
+      return hf+", "+vf;
    }
 }

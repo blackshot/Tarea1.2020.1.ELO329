@@ -9,7 +9,7 @@ JFLAGS = -g -encoding ISO8859_1
 JC = javac
 JVM= java 
 FILE_in= DroneCommands.csv
-FILE_out= DroneTrayectory.csv
+#FILE_out= DroneTrayectory.csv
 
 #
 # Clear any default targets for building .class files from .java files; we 
@@ -37,7 +37,8 @@ FILE_out= DroneTrayectory.csv
 #
 
 .java.class:
-	$(JC) $(JFLAGS) $*.java
+	@echo "Creating objects:"
+	@$(JC) $(JFLAGS) $*.java
 
 
 #
@@ -54,6 +55,7 @@ CLASSES = Stage3Test.java \
 		  Actionable.java \
           Joystick.java \
 		  InputDevice.java \
+          Joysticks.java \
 		  Skycontroller.java \
 		  Keyboard.java \
 		  Drone.java
@@ -86,7 +88,8 @@ classes: $(CLASSES:.java=.class)
 # $(JMV) y $(MAIN) are replaced by their values
 
 run: $(MAIN).class
-	$(JVM) $(MAIN) $(FILE_in) > $(FILE_out)
+	@echo "Running..."
+	$(JVM) $(MAIN) $(FILE_in)
 
 # this line is to remove all unneeded files from
 # the directory when we are finished executing(saves space)
@@ -95,5 +98,8 @@ run: $(MAIN).class
 #
 
 clean:
-	$(RM) *.class
+	@echo "Cleaning..."
+	@$(RM) *.class
+# In case of archive refresh:
+	#$(RM) drone*.csv
 
