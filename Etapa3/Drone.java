@@ -53,24 +53,24 @@ public class Drone implements Actionable{
 
          case FLYING:
          h  += delta_t * vSpeed;
-         // In case of crash, turn off
-         if (h <= 0){
-            h = 0;
-            state = State.IDLE;
-            System.out.println("Drone crashed to the ground... Turning Off...");
-         }
-
          direction += delta_t * rSpeed;
-
          x += delta_t * ( sSpeed * Math.cos(direction) - fSpeed * Math.sin(direction) );
          y += delta_t * ( sSpeed * Math.sin(direction) + fSpeed * Math.cos(direction) );
-         
          break;
          
          case LANDING: //drone moves only downwards in this stage
          h -= delta_t * TAKEOFF_LANDING_SPEED;
+         if (h <= 0) { // Finished the landing ?
+            state = State.IDLE;
+         }
          
          case IDLE: // Waiting for TAKE_OFF or TURNED OFF BY CRASHING
+      }
+      // In case of crash, turn off
+      if (h < 0){
+         h = 0;
+         state = State.IDLE;
+         System.out.println("Drone crashed to the ground... Turning Off...");
       }
       time = t;
    }

@@ -2,28 +2,26 @@ public class SkyController implements Actionable {
    // Fields
    private Drone drone;
    private InputDevice ID;
-   private State button;
+   private State drone_state;
 
    // Constructor
    public SkyController (Drone drone) {
       this.drone = drone; // private variable "drone" (local) now points to Drone object
       // At creation, the drone is LANDED
-      button = State.IDLE;
+      drone_state = drone.getState();
    }
 
-   // Methods   
-   public void setInputDevice(InputDevice ID){
+   // Methods
+   public void setInputDevice(InputDevice ID) {
       this.ID = ID;
    }
 
-   public void pushTakeOff_Land(){
-      if (button == State.IDLE){
+   public void pushTakeOff_Land() {
+      drone_state = drone.getState();
+      if (drone_state == State.IDLE) {
          drone.takeOff();
-         button = State.TAKE_OFF;
-      }
-      else if (button == State.TAKE_OFF){
+      } else if (drone_state == State.FLYING) {
          drone.land();
-         button = State.LANDING;
       }
    }
 
@@ -35,5 +33,9 @@ public class SkyController implements Actionable {
       // JIH
       drone.setRotationSpeed(ID.getRotationPos());
    }
-   
+
+   public State getDroneState(){
+      return drone.getState();
+   }
+
 }

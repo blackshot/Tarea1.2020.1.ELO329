@@ -6,37 +6,48 @@ public class Operator implements Actionable{
    private float t;
    private Scanner inFile;
    private Joystick l_Joystick, r_Joystick;
-   
+   private SkyController SC;
    // Constructor
-   public Operator(Scanner in, Joystick l_Joy, Joystick r_Joy){
+   public Operator(Scanner in, Joysticks joystick, SkyController SC){
       inFile = in;
-      l_Joystick = l_Joy;
-      r_Joystick = r_Joy;
-      
+      l_Joystick = joystick.getLeftStick();
+      r_Joystick = joystick.getRightStick();
+      this.SC = SC;
+
       // Skip description line
       inFile.nextLine();
       t = inFile.nextFloat();
    }
 
-   // Another constructor
-   public Operator(Scanner in, Joysticks joysticks){
-      this(in, joysticks.getLeftStick(), joysticks.getRightStick());
-   }
-   
    // Methods
    public void takeAction(float time) {
+      float v,r,f,s;
+
       // If there's data to read
-      if (inFile.hasNextLine()){
+      if (inFile.hasNextFloat()){
+         // Turn on the drone if it wasn't already ...
+         if (SC.getDroneState() == State.IDLE){
+            SC.pushTakeOff_Land();
+         }
          // if time >= t
          if (Math.round(time * 10) >= Math.round(t*10)){
+            r = inFile.nextFloat();
+            v = inFile.nextFloat();
+            s = inFile.nextFloat();
+            f = inFile.nextFloat();
+
+            if (v == 0.0 && r == 0.0 && f == 0.0 && s == 0.0 && 
+            inFile.hasNextLine() == false){
+               SC.pushTakeOff_Land();
+               }
             
             // Left Joystick Data
-            l_Joystick.setHorPos(inFile.nextFloat());
-            l_Joystick.setVerPos(inFile.nextFloat());
+            l_Joystick.setHorPos(r);
+            l_Joystick.setVerPos(v);
             
             // Right Joystick Data
-            r_Joystick.setHorPos(inFile.nextFloat());
-            r_Joystick.setVerPos(inFile.nextFloat());
+            r_Joystick.setHorPos(s);
+            r_Joystick.setVerPos(f);
             
             // If there's a new line
             if (inFile.hasNextLine()){
@@ -45,7 +56,7 @@ public class Operator implements Actionable{
          }
       }
       // No more data to read;
-      else{ 
+      else{
          // Take no action
       }
    }

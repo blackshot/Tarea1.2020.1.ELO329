@@ -17,20 +17,11 @@ public abstract class InputDevice {
    public abstract float getRotationPos();
    
    public void pushTakeOff_Land () {
-      /*
-      switch (button) {
-         case TAKE_OFF:
-         case LANDING:
-         case FLYING:
-         case IDLE:
-      }
-      button = button==State.TAKE_OFF ? State.LANDING : State.TAKE_OFF;
-      */
       controller.pushTakeOff_Land();
    }
    
    public boolean isWaitingToTakeOff(){
-      return button == State.TAKE_OFF;
+      return button == State.IDLE;
    }
 
 }

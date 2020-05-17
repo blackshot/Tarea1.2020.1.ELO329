@@ -35,11 +35,10 @@ public class Keyboard extends InputDevice implements Actionable {
       int c;
       try {  // reading from "in" could cause an error.
          // We will see instruction try...catch ahead in this course.
-         if (in.available()>0) {// there are bytes to read without being blocked
+         while (in.available()>0) {// there are bytes to read without being blocked
             c=in.read();
             switch (c) {
                case 'w':
-               System.out.println("w");
                   vPos += sensibility; 
                   if (vPos > 1) vPos=1;
                   break;

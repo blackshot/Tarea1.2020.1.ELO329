@@ -24,7 +24,7 @@ public class Stage3Test  {
       skyController.setInputDevice(joysticks);
 
       // Hand in the controller to the operator
-      Operator operator = new Operator(in, joysticks);
+      Operator operator = new Operator(in, joysticks, skyController);
 
       ArrayList<Actionable> Actionables = new ArrayList<Actionable>();
       Actionables.add(operator);
@@ -36,9 +36,9 @@ public class Stage3Test  {
       time = nextPrintTime = getCurrentTime();
 
       // ---------- Joystick Interaction ---------- //
-      // Turn on the drone
+
       /*
-      skyController.pushTakeOff_Land(); // to take-off
+      
       do {
          for (Actionable device : Actionables)
             device.takeAction(time);
@@ -54,6 +54,7 @@ public class Stage3Test  {
 
       */
 
+      
       // ---------- Keyboard Interaction ---------- //
 
       // Create the new INPUT DEVICE
