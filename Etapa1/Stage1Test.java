@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class Stage1Test{
-
 	public static void main(String[] arg) throws IOException{
 		Scanner in = new Scanner(new File(arg[0]));
 		//Scanner in = new Scanner(new File("comandosDron.csv"));
