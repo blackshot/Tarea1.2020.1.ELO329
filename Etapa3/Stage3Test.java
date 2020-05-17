@@ -24,7 +24,7 @@ public class Stage3Test  {
       skyController.setInputDevice(joysticks);
 
       // Hand in the controller to the operator
-      Operator operator = new Operator(in, joysticks, skyController);
+      Operator operator = new Operator(in, joysticks);
 
       ArrayList<Actionable> Actionables = new ArrayList<Actionable>();
       Actionables.add(operator);
@@ -86,7 +86,7 @@ public class Stage3Test  {
       // Close the file
       drone.closeFile();
    }
-   
+
    public static float getCurrentTime(){  // time since program started in [s]
       return (float)(System.currentTimeMillis()-t0)/1000.0f;
    }

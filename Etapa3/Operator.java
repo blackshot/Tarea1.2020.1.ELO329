@@ -6,13 +6,15 @@ public class Operator implements Actionable{
    private float t;
    private Scanner inFile;
    private Joystick l_Joystick, r_Joystick;
-   private SkyController SC;
+   private Joysticks joysticks;
+   private State button;
    // Constructor
-   public Operator(Scanner in, Joysticks joystick, SkyController SC){
+   public Operator(Scanner in, Joysticks joysticks){
       inFile = in;
-      l_Joystick = joystick.getLeftStick();
-      r_Joystick = joystick.getRightStick();
-      this.SC = SC;
+      this.joysticks = joysticks;
+      l_Joystick = joysticks.getLeftStick();
+      r_Joystick = joysticks.getRightStick();
+      button = State.IDLE;
 
       // Skip description line
       inFile.nextLine();
@@ -26,8 +28,9 @@ public class Operator implements Actionable{
       // If there's data to read
       if (inFile.hasNextFloat()){
          // Turn on the drone if it wasn't already ...
-         if (SC.getDroneState() == State.IDLE){
-            SC.pushTakeOff_Land();
+         if (button == State.IDLE){
+            joysticks.pushTakeOff_Land();
+            button = State.FLYING;
          }
          // if time >= t
          if (Math.round(time * 10) >= Math.round(t*10)){
@@ -39,7 +42,8 @@ public class Operator implements Actionable{
             // If there's no input, and no more data to read
             if (v == 0.0 && r == 0.0 && f == 0.0 && s == 0.0 && 
             inFile.hasNextLine() == false){
-               SC.pushTakeOff_Land();
+               joysticks.pushTakeOff_Land();
+               button = State.IDLE;
                }
             
             // Left Joystick Data
