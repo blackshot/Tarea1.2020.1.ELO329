@@ -20,33 +20,37 @@ public class Operator {
 
    // Methods
    public boolean takeAction(float time){
-      if (time > t) {
-         // Time data
-         System.out.print(t + ", ");
+      float v,r,f,s;
+      // If there's data to read
+      if (inFile.hasNextFloat()){
 
-         // Left Joystick Data
-         l_Joystick.setHorPos(inFile.nextFloat());
-         l_Joystick.setVerPos(inFile.nextFloat());
-         System.out.print(l_Joystick.toString() + ", ");
-         
-         // Right Joystick Data
-         r_Joystick.setHorPos(inFile.nextFloat());
-         r_Joystick.setVerPos(inFile.nextFloat());
-         System.out.print(r_Joystick.toString());
-         
-         // Print data
+         // Round to avoid float epsilon difference
+         if (Math.round(time * 10) >= Math.round(t*10)){
+            r = inFile.nextFloat();
+            v = inFile.nextFloat();
+            s = inFile.nextFloat();
+            f = inFile.nextFloat();
+          
+            // Left Joystick Data
+            l_Joystick.setHorPos(r);
+            l_Joystick.setVerPos(v);
+            System.out.print(l_Joystick.toString() + ", ");
 
-         // Continue if there's another data line
-         if(inFile.hasNextLine()){
-            inFile.nextLine();
-            t = inFile.nextFloat();
-            // Create new csv line
-            System.out.println();
+            // Right Joystick Data
+            r_Joystick.setHorPos(s);
+            r_Joystick.setVerPos(f);
+            System.out.println(r_Joystick.toString());
+            
+            // If there's a new line
+            if (inFile.hasNextLine()){
+               t = inFile.nextFloat();
+            }
          }
-         else {
-            return false;
-         }
+         return true;
       }
-      return true;
+      // No more data to read
+      else{
+         return false;
+      }
    }
 }

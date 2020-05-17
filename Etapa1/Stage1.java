@@ -4,8 +4,14 @@ import java.util.Locale;
 
 public class Stage1{
     public static void main (String[] arg) throws IOException {
-        Locale.setDefault(Locale.US);  // to read number in US format, like 1.5 (not like 1,5)
 
+        // ---------- CODE INIT ---------- //
+        Locale.setDefault(Locale.US);
+        
+        if (arg.length == 0){
+            System.out.println("ERROR : No input handed. Closing program ...");
+            return;
+         }
         final Scanner in = new Scanner(new File(arg[0]));
         
         // Time init
