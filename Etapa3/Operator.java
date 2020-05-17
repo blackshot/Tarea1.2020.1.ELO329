@@ -17,13 +17,8 @@ public class Operator implements Actionable{
       inFile.nextLine();
       t = inFile.nextFloat();
    }
-   
-   // Another constructor
-   public Operator(Scanner in, SkyController skycontroller){
-      this(in, skycontroller.getLeftStick(), skycontroller.getRightStick());
-   }
 
-   // Another one ?!
+   // Another constructor
    public Operator(Scanner in, Joysticks joysticks){
       this(in, joysticks.getLeftStick(), joysticks.getRightStick());
    }

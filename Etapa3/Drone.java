@@ -55,6 +55,7 @@ public class Drone implements Actionable{
          h  += delta_t * vSpeed;
          // In case of crash, turn off
          if (h <= 0){
+            h = 0;
             state = State.IDLE;
             System.out.println("Drone crashed to the ground... Turning Off...");
          }

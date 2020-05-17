@@ -1,24 +1,19 @@
 public class SkyController implements Actionable {
    // Fields
    private Drone drone;
-   private Joystick lStick, rStick;
+   private InputDevice ID;
    private State button;
 
    // Constructor
    public SkyController (Drone drone) {
       this.drone = drone; // private variable "drone" (local) now points to Drone object
-      lStick = new Joystick();
-      rStick = new Joystick();
       // At creation, the drone is LANDED
       button = State.IDLE;
    }
 
    // Methods   
-   public void setInputDevice(Joysticks joysticks){
-      // TBC
-   }
-   public void setInputDevice(Keyboard keyboard){
-      // TBC
+   public void setInputDevice(InputDevice ID){
+      this.ID = ID;
    }
 
    public void pushTakeOff_Land(){
@@ -34,17 +29,11 @@ public class SkyController implements Actionable {
 
    public void takeAction(float time) {
       // JIV, JDV, JDH
-      drone.setFlySpeed(lStick.getVerPos(),
-                        rStick.getVerPos(),
-                        rStick.getHorPos());
+      drone.setFlySpeed(ID.getVerticalPos(),
+                        ID.getForwardPos(),
+                        ID.getSidewaysPos());
       // JIH
-      drone.setRotationSpeed(lStick.getHorPos());
+      drone.setRotationSpeed(ID.getRotationPos());
    }
-
-   public Joystick getLeftStick(){
-      return lStick;
-   }
-   public Joystick getRightStick(){
-      return rStick;
-   }
+   
 }

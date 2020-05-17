@@ -1,10 +1,15 @@
 public class Joysticks extends InputDevice {
+   // Fields
+   private Joystick lStick, rStick;
+
+   // Constructor
    public Joysticks (SkyController controller) {
       super(controller);
-      lStick = controller.getLeftStick();
-      rStick = controller.getRightStick();
+      lStick = new Joystick();
+      rStick = new Joystick();
    }
 
+   // Methods
    public Joystick getLeftStick(){
       return lStick;
    }
@@ -16,7 +21,7 @@ public class Joysticks extends InputDevice {
       return lStick.getVerPos();
    }
    public float getRotationPos(){
-      return rStick.getHorPos();
+      return lStick.getHorPos();
    }
    public float getForwardPos(){
       return rStick.getVerPos();
@@ -24,7 +29,5 @@ public class Joysticks extends InputDevice {
    public float getSidewaysPos(){
       return rStick.getHorPos();
    }
-   
-   /* others methods to be coded*/
-   private Joystick lStick, rStick;
+
 }

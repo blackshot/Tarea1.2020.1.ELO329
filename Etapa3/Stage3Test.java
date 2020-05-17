@@ -16,11 +16,11 @@ public class Stage3Test  {
       
       // Drone init
       Drone drone = new Drone();
-      // Drone in the controller
+      // Create the controller
       SkyController skyController = new SkyController(drone);
-      
-      // Create the joysticks
+      // Create the INPUT DEVICE
       Joysticks joysticks = new Joysticks(skyController);
+      // Assign the INPUT DEVICE to the controller
       skyController.setInputDevice(joysticks);
 
       // Hand in the controller to the operator
@@ -37,13 +37,14 @@ public class Stage3Test  {
 
       // ---------- Joystick Interaction ---------- //
       // Turn on the drone
+      /*
       skyController.pushTakeOff_Land(); // to take-off
       do {
          for (Actionable device : Actionables)
             device.takeAction(time);
          if (time >= nextPrintTime) {
             System.out.println(time + ",\t" + drone);
-            nextPrintTime += 0.1;
+            nextPrintTime += 0.5;
          }
          sleepFor(0.1f); // let 0.1 [s] pass to run at real time.
          time = getCurrentTime();
@@ -51,13 +52,16 @@ public class Stage3Test  {
 
       System.out.println(time + ",\t" + drone);
 
+      */
+
       // ---------- Keyboard Interaction ---------- //
 
+      // Create the new INPUT DEVICE
       Keyboard keyboard = new Keyboard(skyController);
+      skyController.setInputDevice(keyboard); // we switch to another input device
+      
       Actionables.remove(operator); // stop reading automatically from file
       Actionables.add(keyboard); // start reading from keyboard
-
-      skyController.setInputDevice(keyboard); // we switch to another input device
       
       System.out.println("Get ready to control the drone. Now you are its pilot.");
       do { // wait until the user hits space key (to take-off)
