@@ -113,7 +113,7 @@ public class Drone implements Actionable {
     * @return String: posicion x,y,h en string.
     */
    public String toString() {
-      return String.format("% .2f, % .2f, % .2f",x,y,h);
+      return String.format("%.2f, % .2f, % .2f",x,y,h);
    }
    /** 
     * Realiza el despegue, dependiendo del estado del Dron.
