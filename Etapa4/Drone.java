@@ -25,16 +25,16 @@ public class Drone implements Actionable{
    }
    
    // Constructor
-   public Drone(int num){
+   public Drone(int num, int x, int y){
       state = DroneState.IDLE;
       time = 0.0f;
-      x = 0.0f;      y = 0.0f;      h = 0.0f;
+      this.x = x;      this.y = y;      h = 0.0f;
       fSpeed = 0.0f; vSpeed = 0.0f; sSpeed = 0.0f; rSpeed = 0.0f;
       direction = 0.0f;
       try {
          Archive = new PrintWriter("drone"+num+".csv", "UTF-8");
          System.out.println("File Created"); // termina el print despues de close
-         Archive.write("time, x, y, h \n");
+         Archive.write("time, x, y, h\n");
       } catch (IOException e) {
          System.out.println("File Creation Error");
       }
@@ -116,7 +116,7 @@ public class Drone implements Actionable{
     * @return String: posicion x,y,h en string.
     */
    public String toString() {
-      String fString = String.format("% .2f, % .2f, % .2f, % .2f",time,x,y,h);
+      String fString = String.format("%.2f, % .2f, % .2f, % .2f",time,x,y,h);
       return fString;
    }
    /** 

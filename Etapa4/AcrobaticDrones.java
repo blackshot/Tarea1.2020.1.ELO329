@@ -15,8 +15,8 @@ public class AcrobaticDrones  {
       final Scanner in = new Scanner(new File(arg[0]));
       
       // Drone creation
-      Drone drone1 = new Drone(1);
-      Drone drone2 = new Drone(2);
+      Drone drone1 = new Drone(1,0,10);
+      Drone drone2 = new Drone(2,10,0);
 
       ArrayList<Actionable> Actionables1 = new ArrayList<Actionable>();
       ArrayList<Actionable> Actionables2 = new ArrayList<Actionable>();
