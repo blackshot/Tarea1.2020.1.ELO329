@@ -31,6 +31,7 @@ public class Drone implements Actionable{
       this.x = x;      this.y = y;      h = 0.0f;
       fSpeed = 0.0f; vSpeed = 0.0f; sSpeed = 0.0f; rSpeed = 0.0f;
       direction = 0.0f;
+      this.num = num;
       try {
          Archive = new PrintWriter("drone"+num+".csv", "UTF-8");
          System.out.println("File Created"); // termina el print despues de close
