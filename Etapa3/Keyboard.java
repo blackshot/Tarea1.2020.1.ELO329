@@ -88,7 +88,6 @@ public class Keyboard extends InputDevice implements Actionable {
                         if (fPos > 1) fPos=1;
                         break;
                     case ' ': this.pushTakeOff_Land(); break;
-                    default: System.out.println("Incorrect Input"); break;
                 }
             }
         } catch ( IOException e ) { 

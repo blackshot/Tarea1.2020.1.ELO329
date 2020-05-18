@@ -9,9 +9,9 @@ public class Stage3Test  {
       t0=System.currentTimeMillis();  // time in ms since app 1970.
    }
    public static long t0; 
-
    public static void main (String[] arg) throws IOException {
       Scanner in = new Scanner(new File(arg[0]));
+
       Drone drone = new Drone();
       SkyController skyController = new SkyController(drone);
       Joysticks joysticks = new Joysticks(skyController);
@@ -25,7 +25,7 @@ public class Stage3Test  {
 
       // Time init (as close as possible to the operation to avoid time lag).
       float time, nextPrintTime;
-         time=nextPrintTime = getCurrentTime();
+      time=nextPrintTime = getCurrentTime();
 
       // ---------- Joystick Interaction ---------- //   
       System.out.println("Drone in AutoPilot - Demonstration.");
@@ -51,8 +51,8 @@ public class Stage3Test  {
       actionables.remove(operator); // stop reading automatically from file
       actionables.add(keyboard); // start reading from keyboard
       
-      System.out.println("Get ready to control the drone. Now you are the pilot.");
-
+      System.out.println("Get ready to control the drone. Now you are the pilot!");
+      System.out.println("Press SPACE (and Enter) to start !!!");
       do { // wait until the user hits space key (to take-off)
          for (Actionable device : actionables)
             device.takeAction(time);

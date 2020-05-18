@@ -46,7 +46,7 @@ public class AcrobaticDrones  {
          for (Actionable device : Actionables2)
             device.takeAction(time);
          if (time >= nextPrintTime) {
-            System.out.println("Drone 1: " + drone1.toString());
+            System.out.print("Drone 1: " + drone1.toString() + '\t');
             System.out.println("Drone 2: " + drone2.toString());
             nextPrintTime += 0.5;
          }

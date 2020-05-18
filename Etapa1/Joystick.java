@@ -45,6 +45,7 @@ public class Joystick {
     * @return String: angulos de posicion
     */
    public String toString() {
-      return hf+","+vf;
+      String fString = String.format("% .2f, % .2f",hf,vf);
+      return fString;
    }
 }

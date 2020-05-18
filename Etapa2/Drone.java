@@ -39,7 +39,7 @@ public class Drone {
           h += delta_t * TAKEOFF_LANDING_SPEED;
           if (h >= 1.0f){
             state = DroneState.FLYING;
-            System.out.println("Drone reached flying altitude...");
+            //System.out.println("Drone reached flying altitude...");
           }
           break;
       case FLYING:

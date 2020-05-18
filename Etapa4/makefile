@@ -9,7 +9,6 @@ JFLAGS = -g -encoding ISO8859_1
 JC = javac
 JVM= java 
 FILE_in= DroneCommands.csv
-FILE_out= DroneTrayectory.csv
 
 #
 # Clear any default targets for building .class files from .java files; we 
@@ -86,6 +85,7 @@ classes: $(CLASSES:.java=.class)
 # $(JMV) y $(MAIN) are replaced by their values
 
 run: $(MAIN).class
+	@echo "Running..."
 	$(JVM) $(MAIN) $(FILE_in)
 
 # this line is to remove all unneeded files from
@@ -95,5 +95,6 @@ run: $(MAIN).class
 #
 
 clean:
-	$(RM) *.class
+	@echo "Cleaning..."
+	@$(RM) *.class
 

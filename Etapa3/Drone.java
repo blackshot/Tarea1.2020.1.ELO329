@@ -23,7 +23,7 @@ public class Drone implements Actionable {
    }
 
    // Constructor Method
-   public Drone () {
+   public Drone(){
       state = DroneState.IDLE;
       time = 0.0f;
       x = 0.0f;      y = 0.0f;      h = 0.0f;
@@ -50,7 +50,7 @@ public class Drone implements Actionable {
          h += delta_t * TAKEOFF_LANDING_SPEED;
          if (h >= 1.0f){
            state = DroneState.FLYING;
-           System.out.println("Drone reached flying altitude...");
+           //System.out.println("Drone reached flying altitude...");
          }
          break;
       case FLYING:
@@ -61,12 +61,17 @@ public class Drone implements Actionable {
          break;
       case LANDING: //drone moves only downwards in this stage
           h -= delta_t * TAKEOFF_LANDING_SPEED;
-          if (h <= 0){
+          if (h <= 0){ // Finished the landing
             state = DroneState.IDLE;
-            h = 0.0f; // specifies that it can't go below zero.
           }
           break;
       default: break;
+      }
+      // In case of crash, turn off
+      if (h < 0){
+         h = 0;
+         state = DroneState.IDLE;
+         System.out.println("Drone landed... Changing State to IDLE");
       }
       time = t;
 
@@ -108,13 +113,7 @@ public class Drone implements Actionable {
    public DroneState getState() {
       return state;
    }
-   /** 
-    * Obtiene la informacion del dron.
-    * @return String: posicion x,y,h en string.
-    */
-   public String toString() {
-      return String.format("%.2f, % .2f, % .2f",x,y,h);
-   }
+   
    /** 
     * Realiza el despegue, dependiendo del estado del Dron.
     */
@@ -137,7 +136,14 @@ public class Drone implements Actionable {
       Archive.close();
    }
    /** 
-    * Imprime la informacion del dron.
+    * Obtiene la informacion del dron.
+    * @return String: posicion x,y,h en string.
+    */
+    public String toString() {
+      return String.format("%.2f, % .2f, % .2f, % .2f",time,x,y,h);
+   }
+   /** 
+    * Escribe la informacion del dron en el archivo this.Archive
     */
    public void print2File(){
       Archive.write(this.toString()+'\n');

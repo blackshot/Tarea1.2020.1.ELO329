@@ -6,6 +6,7 @@ public class Operator implements Actionable {
    private Scanner inFile;
    private Joystick l_Joystick, r_Joystick;
    private Joysticks JS;
+   private DroneState button;
 
    // Constructor Methods
    public Operator (Scanner in, Joysticks JS){
@@ -13,7 +14,10 @@ public class Operator implements Actionable {
       this.JS = JS; 
       l_Joystick = JS.getLeftStick();
       r_Joystick = JS.getRightStick();
-      inFile.nextLine(); // skip description line
+      button = DroneState.IDLE;
+
+      // skip description line
+      inFile.nextLine(); 
       t = inFile.nextFloat();
    }
 
@@ -28,15 +32,23 @@ public class Operator implements Actionable {
       float ver,rot,forw,side;
       // If there's data to read
       if (inFile.hasNextFloat()){
+         // Turn on the drone if it wasn't already ...
+         if (button == DroneState.IDLE){
+            JS.pushTakeOff_Land();
+            button = DroneState.FLYING;
+         }
+
          // Round to avoid float epsilon difference
          if (Math.round(time * 10) >= Math.round(t*10)){
             rot = inFile.nextFloat();
             ver = inFile.nextFloat();
             side = inFile.nextFloat();
             forw = inFile.nextFloat();
-
+            
+            // If there's no input, and no more data to read
             if (ver == 0.0 && rot == 0.0 && forw == 0.0 && side == 0.0 && inFile.hasNextLine() == false){
                JS.pushTakeOff_Land();
+               button = DroneState.IDLE;
                }
 
             // Left Joystick Data
@@ -52,6 +64,7 @@ public class Operator implements Actionable {
             }
          }
       }
+      // No more data to read...
       else {} // No action
    }
 }

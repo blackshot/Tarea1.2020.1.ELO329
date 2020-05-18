@@ -35,7 +35,7 @@ public class Drone implements Actionable{
       try {
          Archive = new PrintWriter("drone"+num+".csv", "UTF-8");
          System.out.println("File Created"); // termina el print despues de close
-         Archive.write("time, x, y, h\n");
+         Archive.write("time,\tx,\ty,\th\n");
       } catch (IOException e) {
          System.out.println("File Creation Error");
       }
