@@ -52,7 +52,7 @@ public class Drone implements Actionable{
          h += delta_t * TAKEOFF_LANDING_SPEED;
          if (h >= 1.0f){
             state = DroneState.FLYING;
-            System.out.println("Drone " + num + " reached flying altitude...");
+            System.out.println("Drone " + this.num + " reached flying altitude...");
          }
          break;
       case FLYING:
@@ -66,7 +66,7 @@ public class Drone implements Actionable{
          if (h <= 0) { 
             state = DroneState.IDLE;
             h = 0.0f; // specifies that it can't go below zero.
-            System.out.println("Drone " + num + " landed... Changing State to IDLE");
+            System.out.println("Drone " + this.num + " landed... Changing State to IDLE");
          }
          break;
          case IDLE: // Waiting for TAKE_OFF or TURNED OFF BY CRASHING
